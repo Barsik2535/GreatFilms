@@ -26,7 +26,7 @@ namespace TestAPI.Controllers
             _signInManager= signInManager;
             _roleManager=roleManager;
         }
-        [HttpPost("register")]
+        [HttpPost("register")]//регистрация
         public async Task<ActionResult<AuthResponse>> Registration(RegisterModel registerModel)
         {   
             Console.WriteLine($"Email:{registerModel.Email}");
