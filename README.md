@@ -1,3 +1,5 @@
 Приложение для просмотра фильмов и сохранения в личную коллекцию. Находится в разработке
-BACKEND- ASP NET CORE
-FRONTEND- React
+BACKEND: ASP NET CORE
+
+
+FRONTEND: React
