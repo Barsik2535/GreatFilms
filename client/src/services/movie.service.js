@@ -12,6 +12,10 @@ class MovieService {
         const response = await axios.get(API_URL);
         return response.data;
     }
+    async editMovie(movieId,newData) {
+        const response = await axios.post(API_URL + '/edit/' + movieId, newData);
+        return response.data;
+    }
 }
 
 export default new MovieService();

@@ -5,10 +5,15 @@ import {
 } from '@mui/material';
 import MovieService from '../services/movie.service';
 
-const Movie = () => {
+const Movie = () =>
+{
     const [movies, setMovies] = useState([]);
     const [form, setForm] = useState({
-        title: '', description: '', releaseYear: '', genre: '', director: ''
+        title: '', description: '', releaseYear: '', genre: '', movieId: '',
+        
+    });
+    const [editForm, setEditForm] = useState({
+        movieId: '', newTitle: '', newDescription: '', newReleaseYear: '', newGenre: ''
     });
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -29,8 +34,34 @@ const Movie = () => {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm({ ...editForm, [name]: value });
+    };
+    const handleEdit = async (e) => {
+        try {
+            await MovieService.editMovie(editForm.movieId,
+                {
+                    title: editForm.newTitle,
+                    description: editForm.newDescription,
+                    releaseYear: parseInt(editForm.newReleaseYear),
+                    genre: editForm.newGenre,
+           
+                });
 
-    const handleSubmit = async (e) => {
+            setSuccess('Фильм отредактирован!');
+            setForm({ newTitle: '', newDescription: '', newReleaseYear: '', newGenre: '', });
+            loadMovies(); // перезагружаем список
+        }
+
+        catch (err) {
+            setError(err.response?.data?.message || 'Ошибка при редактировании');
+        }
+    }
+
+
+    const handleSubmit = async (e) =>
+    {
         e.preventDefault();
         setError('');
         setSuccess('');
@@ -40,17 +71,25 @@ const Movie = () => {
                 title: form.title,
                 description: form.description,
                 releaseYear: parseInt(form.releaseYear),
-                genre: form.genre,
-                director: form.director
+                genre: form.genre
             });
 
             setSuccess('Фильм успешно добавлен!');
-            setForm({ title: '', description: '', releaseYear: '', genre: '', director: '' });
+            setForm({ title: '', description: '', releaseYear: '', genre: '',});
             loadMovies(); // перезагружаем список
-        } catch (err) {
+        }
+
+        catch (err)
+        {
             setError(err.response?.data?.message || 'Ошибка при добавлении');
         }
+
+
+
+
+     
     };
+
 
     return (
         <Container maxWidth="lg" sx={{ mt: 4 }}>
@@ -74,11 +113,37 @@ const Movie = () => {
                         <Grid item xs={12} md={6}>
                             <TextField fullWidth label="Жанр" name="genre" value={form.genre} onChange={handleChange} />
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField fullWidth label="Режиссёр" name="director" value={form.director} onChange={handleChange} />
-                        </Grid>
+                        
                     </Grid>
                     <Button type="submit" variant="contained" sx={{ mt: 3 }}>Добавить фильм</Button>
+                </Box>
+            </Paper>
+            <Paper sx={{ p: 3, mb: 4 }}>
+                <Typography variant="h5" gutterBottom>Редактировать фильм</Typography>
+
+                {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+                {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+
+                <Box component="form" onSubmit={handleEdit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <TextField fullWidth label="Номер фильма" name="movieId" value={editForm.movieId} onChange={handleEditChange} required />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField fullWidth label="Название" name="newTitle" value={editForm.newTitle} onChange={handleEditChange} required />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField fullWidth label="Год" name="newReleaseYear" type="number" value={editForm.newReleaseYear} onChange={handleEditChange} required />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="Описание" name="newDescription" multiline rows={3} value={editForm.newDescription} onChange={handleEditChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField fullWidth label="Жанр" name="newGenre" value={editForm.newGenre} onChange={handleEditChange} />
+                        </Grid>
+                        
+                    </Grid>
+                    <Button type="submit" variant="contained" sx={{ mt: 3 }}>Редактировать фильм</Button>
                 </Box>
             </Paper>
 
@@ -103,5 +168,4 @@ const Movie = () => {
         </Container>
     );
 };
-
 export default Movie;

@@ -27,6 +27,21 @@ namespace TestAPI.Controllers
 
             return CreatedAtAction(nameof(GetById),new {Id=movie.Id},movie);
         }
+        [HttpPost("edit/{id}")]
+        public async Task<IActionResult> Edit([FromBody] Movie movie,int id)//добавляем id по которому находим обьект и присваиваем поля из запроса
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var newData = await _context.Movies.FindAsync(id);
+            if (newData != null)
+            {
+                 newData.Title= movie.Title;
+                 newData.Description= movie.Description;
+                 newData.ReleaseYear= movie.ReleaseYear;
+            }
+            await _context.SaveChangesAsync();
+            return Ok(newData);
+        }
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {   //получаем по убыванию
