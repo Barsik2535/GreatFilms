@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Movie from './Movie';
 import {
     Container,
@@ -40,7 +41,7 @@ const Dashboard = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        Dashboard
+                    <Link to="/dashboard">Main page</Link>
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Typography>{user.email}</Typography>

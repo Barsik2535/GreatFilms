@@ -9,7 +9,10 @@ import {
     Box,
     Alert,
     FormControlLabel,
-    Checkbox
+    Checkbox,
+    AppBar,
+    Toolbar,
+    Avatar
 } from '@mui/material';
 import AuthService from '../services/auth.service';
 
@@ -59,6 +62,14 @@ const Login = () => {
     };
 
     return (
+        <>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                    <Link to="/dashboard">Main page</Link>
+                    </Typography>
+                </Toolbar>
+            </AppBar>
         <Container maxWidth="sm">
             <Box sx={{ mt: 8 }}>
                 <Paper elevation={3} sx={{ p: 4 }}>
@@ -125,7 +136,8 @@ const Login = () => {
                     </form>
                 </Paper>
             </Box>
-        </Container>
+            </Container>
+        </>
     );
 };
 

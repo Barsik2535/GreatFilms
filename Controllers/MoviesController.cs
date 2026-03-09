@@ -27,18 +27,20 @@ namespace TestAPI.Controllers
 
             return CreatedAtAction(nameof(GetById),new {Id=movie.Id},movie);
         }
-        [HttpPost("edit/{id}")]
+        [HttpPut("edit/{id}")]
         public async Task<IActionResult> Edit([FromBody] Movie movie,int id)//добавляем id по которому находим обьект и присваиваем поля из запроса
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var newData = await _context.Movies.FindAsync(id);
-            if (newData != null)
+            if (newData == null)
             {
-                 newData.Title= movie.Title;
-                 newData.Description= movie.Description;
-                 newData.ReleaseYear= movie.ReleaseYear;
+                return NotFound();
             }
+            newData.Title= movie.Title;
+            newData.Description= movie.Description;
+            newData.ReleaseYear= movie.ReleaseYear;
+            
             await _context.SaveChangesAsync();
             return Ok(newData);
         }
@@ -59,5 +61,17 @@ namespace TestAPI.Controllers
 
             return Ok(movie);   
         }
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteFilm(int id)
+        {
+            var movie= await _context.Movies.FindAsync(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }   
     } 
 }

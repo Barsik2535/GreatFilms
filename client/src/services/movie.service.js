@@ -13,7 +13,11 @@ class MovieService {
         return response.data;
     }
     async editMovie(movieId,newData) {
-        const response = await axios.post(API_URL + '/edit/' + movieId, newData);
+        const response = await axios.put(API_URL + '/edit/' + movieId, newData);
+        return response.data;
+    }
+    async delete(movieId) {
+        const response = await axios.delete(API_URL+'/delete/'+movieId);
         return response.data;
     }
 }
