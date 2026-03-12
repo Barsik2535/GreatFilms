@@ -1,5 +1,30 @@
 {
   "dependencies": {
+    "@microsoft/signalr": "^10.0.0",
     "axios": "^1.13.5"
+  },
+  "name": "testapi",
+  "version": "1.0.0",
+  "description": "Application for watching movies and saving them to your personal collection. Currently in development\r BACKEND: ASP NET CORE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Barsik2535/GreatFilms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Barsik2535/GreatFilms/issues"
+  },
+  "homepage": "https://github.com/Barsik2535/GreatFilms#readme",
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
   }
 }

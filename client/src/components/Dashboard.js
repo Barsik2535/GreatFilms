@@ -41,7 +41,12 @@ const Dashboard = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                    <Link to="/dashboard">Main page</Link>
+                        <Link to="/dashboard">Main page</Link>
+                        
+                    </Typography>
+                    <Typography variant="h6" sx={{ flexGrow: 1}}>
+                        <Link to="/chat">Discuss</Link>
+
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Typography>{user.email}</Typography>

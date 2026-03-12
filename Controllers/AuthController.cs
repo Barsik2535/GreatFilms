@@ -159,6 +159,7 @@ namespace TestAPI.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier , user.Id.ToString()),
                 new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Name, user.UserName ?? user.Email),
                 new Claim("FirstName",user.FirstName??""),
                 new Claim("LastName",user.LastName??""),
             };

@@ -20,7 +20,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 //Add React.
 builder.Services.AddReact();
-
+builder.Services.AddSignalR();
 //Add JsEngineSwitcher V8.
 builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName).AddV8();
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -61,7 +61,7 @@ builder.Services.AddAuthentication(options =>
             var accessToken = context.Request.Query["access_token"];
             var path = context.HttpContext.Request.Path;
 
-            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chatHub"))
             {
                 context.Token = accessToken;
             }
@@ -88,6 +88,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.MapHub<ChatHub>("/chatHub");
 app.MapStaticAssets();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
