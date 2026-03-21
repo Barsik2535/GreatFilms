@@ -145,11 +145,13 @@ const Movie = () =>
                     <Grid item xs={12} sm={6} md={4} key={movie.id}>
                         <Card>
                             <CardContent>
-                                <Typography variant="h6">{movie.title} ({movie.releaseYear})</Typography>
+                                <Typography variant="h4">{movie.title}</Typography>
+                                <Typography variant="h6">Год выпуска: {movie.releaseYear}</Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    {movie.genre} • {movie.director}
+                                   Жанр: {movie.genre}
                                 </Typography>
                                 <Typography variant="body2" sx={{ mt: 1 }}>
+                                Описание:
                                     {movie.description}
                                 </Typography>
                                 

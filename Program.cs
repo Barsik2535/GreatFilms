@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using React.AspNet;
 using System.Text;
 using TestAPI.Data;
+using TestAPI.GrpcServices;
 using TestAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,9 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 //Add React.
+
+builder.Services.AddGrpc();
+builder.Services.AddGrpcReflection();
 builder.Services.AddReact();
 builder.Services.AddSignalR();
 //Add JsEngineSwitcher V8.
@@ -81,7 +85,14 @@ builder.Services.AddCors(options =>
         .AllowCredentials();
     });
 });
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenLocalhost(5108, listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2;  //так как gRPC требует Http2,наш порт 5108
 
+    });
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -89,7 +100,12 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseGrpcWeb();
+
+app.MapGrpcService<GreeterService>().EnableGrpcWeb();
 app.MapHub<ChatHub>("/chatHub");
+
+app.MapGrpcReflectionService();
 app.MapStaticAssets();
 app.UseStaticFiles();
 app.UseHttpsRedirection();

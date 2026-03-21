@@ -27,8 +27,8 @@ namespace TestAPI.Controllers
 
             return CreatedAtAction(nameof(GetById),new {Id=movie.Id},movie);
         }
-        [HttpPut("edit/{id}")]
-        public async Task<IActionResult> Edit([FromBody] Movie movie,int id)//добавляем id по которому находим обьект и присваиваем поля из запроса
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit([FromBody] MovieUpdateForm movie,[FromRoute]int id)//добавляем id по которому находим обьект и присваиваем поля из запроса
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -40,7 +40,7 @@ namespace TestAPI.Controllers
             newData.Title= movie.Title;
             newData.Description= movie.Description;
             newData.ReleaseYear= movie.ReleaseYear;
-            
+            newData.Genre = movie.Genre;
             await _context.SaveChangesAsync();
             return Ok(newData);
         }
