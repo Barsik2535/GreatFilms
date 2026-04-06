@@ -1,4 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import {
     Container, Paper, Typography, TextField, Button, Box,
     Grid, Card, CardContent, Alert
@@ -82,7 +83,7 @@ const Movie = () =>
             setError(err.response?.data?.message || 'Ошибка при редактировании');
         }
     }
-
+    const navigate=useNavigate();
 
     const handleSubmit = async (e) =>
     {
@@ -157,10 +158,10 @@ const Movie = () =>
                                 
                                 <button onClick={() => OpenMovie(movie)}>Редактировать</button>
                                 <button style={{ marginLeft: '50px' }} onClick={()=>handleDelete(movie.id)}>Удалить</button>
+                                <button onClick={() => navigate(`/forum/${movie.id}`)}>Обсудить</button>
                             </CardContent>
                         </Card>
                     </Grid>
-
                 ))}
             </Grid>
 

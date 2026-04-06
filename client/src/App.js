@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import AuthService from './services/auth.service';
 import Movies from './components/Movie';
-import Chat from './components/Chat.tsx';
+import ForumPage from './components/ForumPage.tsx';
 // Protected Route wrapper
 const ProtectedRoute = ({ children }) => {
     if (!AuthService.isAuthenticated()) {
@@ -35,7 +35,7 @@ function App() {
                 />
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/movies" element={<Movies />} />
-                <Route path="/chat" element={<Chat />} />
+                <Route path="/forum/:topicId" element={<ForumPage />} />
             </Routes>
         </Router>
     );

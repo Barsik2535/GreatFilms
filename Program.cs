@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.IdentityModel.Tokens;
 using React.AspNet;
 using System.Text;
+using System.Text.Json.Serialization;
 using TestAPI.Data;
 using TestAPI.GrpcServices;
 using TestAPI.Models;
-
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -25,6 +27,7 @@ builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddReact();
 builder.Services.AddSignalR();
+builder.Services.AddScoped<ChatHub>();
 //Add JsEngineSwitcher V8.
 builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName).AddV8();
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -84,6 +87,10 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod()
         .AllowCredentials();
     });
+});
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 builder.WebHost.ConfigureKestrel(options =>
 {
