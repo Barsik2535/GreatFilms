@@ -35,11 +35,11 @@ public class ChatHub : Hub
             post.Id,
             post.UserName,
             text = post.Message,       
-            createdAt = post.CreateTime, 
+            createdAt = post.CreateTime,
             post.ParentId,
             replies = new List<object>() 
         };
-        await Clients.Groups(roomId).SendAsync("ReceivePost", postDto);
+         await Clients.All.SendAsync("ReceivePost", postDto);
     }
 
 }

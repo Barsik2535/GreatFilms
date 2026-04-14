@@ -10,7 +10,7 @@ namespace TestAPI.Models
         public string? TopicId { get; set; }
         public string? UserId {  get; set; }
         public string UserName= string.Empty;
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.UtcNow;
         public int? ParentId {  get; set; }
         public ForumPost? Parent { get; set; }
         public ICollection<ForumPost> Replies { get; set; }

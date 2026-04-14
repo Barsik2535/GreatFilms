@@ -21,14 +21,14 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-//Add React.
-
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 builder.Services.AddReact();
 builder.Services.AddSignalR();
 builder.Services.AddScoped<ChatHub>();
-//Add JsEngineSwitcher V8.
+
+builder.Logging.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug);
+builder.Logging.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
 builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName).AddV8();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -47,7 +47,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-
 .AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -100,23 +99,23 @@ builder.WebHost.ConfigureKestrel(options =>
 
     });
 });
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+app.UseCors("AllowReactApp");
+app.UseWebSockets();
 
 app.UseGrpcWeb();
-
 app.MapGrpcService<GreeterService>().EnableGrpcWeb();
-app.MapHub<ChatHub>("/chatHub");
-
+app.MapHub<ChatHub>("/ChatHub");
 app.MapGrpcReflectionService();
 app.MapStaticAssets();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
-app.UseCors("AllowReactApp");
 app.MapControllers();
 app.UseAuthorization();
 //app.UseSwagger();
