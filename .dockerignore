@@ -1,0 +1,10 @@
+**/node_modules
+**/bin
+**/obj
+**/.git
+**/.github
+**/.vs
+**/.vscode
+frontend/build
+frontend/dist
+*.user

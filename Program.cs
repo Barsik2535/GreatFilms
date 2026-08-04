@@ -13,8 +13,8 @@ using TestAPI.GrpcServices;
 using TestAPI.Models;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+using TestAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
-
 
 
 builder.Services.AddOpenApi();
@@ -87,10 +87,12 @@ builder.Services.AddCors(options =>
         .AllowCredentials();
     });
 });
+
 builder.Services.Configure<JsonOptions>(options =>
 {
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
+// in case of using gRPC
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenLocalhost(5108, listenOptions =>
@@ -99,7 +101,18 @@ builder.WebHost.ConfigureKestrel(options =>
 
     });
 });
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetValue<string>("Redis:ConnectionString") ?? "localhost:6379";
+    options.InstanceName = "Forum_";
+});
 
+builder.Services.AddHttpClient("SettingsService", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Services:SettingsService"]);
+    client.Timeout = TimeSpan.FromSeconds(20);
+});
+builder.Services.AddScoped<CachedPostService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

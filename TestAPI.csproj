@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -30,14 +30,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.10" />
     <PackageReference Include="React.AspNet" Version="5.2.12" />
-	 <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+	 <Protobuf Include="backend\Protos\greet.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\Scripts\file.jsx" />
   </ItemGroup>
 	<ItemGroup>
-		<Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+		<Protobuf Include="backend\Protos\greet.proto" GrpcServices="Server" />
 	</ItemGroup>
 </Project>

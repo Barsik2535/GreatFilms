@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36915.13 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11828.311 oobstable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAPI", "TestAPI.csproj", "{E02BDEEB-8136-4CB7-A1E2-EDFDD115AC1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsAPI", "..\SettingsAPI\SettingsAPI.csproj", "{256E4CF1-8D77-4EFE-A545-45E72E1EE26C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E02BDEEB-8136-4CB7-A1E2-EDFDD115AC1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E02BDEEB-8136-4CB7-A1E2-EDFDD115AC1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E02BDEEB-8136-4CB7-A1E2-EDFDD115AC1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{256E4CF1-8D77-4EFE-A545-45E72E1EE26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{256E4CF1-8D77-4EFE-A545-45E72E1EE26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{256E4CF1-8D77-4EFE-A545-45E72E1EE26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{256E4CF1-8D77-4EFE-A545-45E72E1EE26C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

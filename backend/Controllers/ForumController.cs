@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Data;
 using TestAPI.Models;
+using TestAPI.Services;
 
 namespace TestAPI.Controllers
 {
@@ -10,21 +11,28 @@ namespace TestAPI.Controllers
     public class ForumController:ControllerBase
     {
         private readonly AppDbContext _context;
-        public ForumController(AppDbContext context) 
+      
+        public ForumController(AppDbContext context,CachedPostService cachedPostService) 
         {
             _context=context;
+           
         }
         [HttpGet("{topicId}")]
         public async Task<ActionResult<List<ForumPostDTO>>> GetTopicPosts(string topicId) 
         {
             var posts = await _context.ForumPost
                 .Where(p => p.TopicId == topicId)
-                .Include(p => p.Replies)
                 .OrderBy(p => p.CreateTime)
-                .ToListAsync();
-            var rootPosts=posts.Where(p=>p.ParentId == null).Select(p=>MapToDto(p,posts)).ToList();//строим дерево 
-  
-            return Ok(rootPosts);
+                .Select(p => new ForumPostDTO
+                {
+                    Id = p.Id,
+                    Text = p.Message,
+                    userName = p.UserName,
+                    CreatedAt = p.CreateTime,
+                    ParentId = p.ParentId
+                }).ToListAsync();
+           
+            return Ok(posts);
         }
         
         private ForumPostDTO MapToDto(ForumPost post,List<ForumPost> posts)
@@ -32,7 +40,7 @@ namespace TestAPI.Controllers
             var dto = new ForumPostDTO
             {
                 Id = post.Id,
-                UserName = post.UserName,
+                userName = post.UserName,
                 Text = post.Message,
                 CreatedAt = post.CreateTime,
                 ParentId = post.ParentId,

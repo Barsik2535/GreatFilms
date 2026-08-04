@@ -28,9 +28,11 @@ const PostItem:React.FC<
 
 const childReplies=allPosts.filter(p=>p.parentId===post.id)
 
+const indent = Math.min(level, 4) * 40; 
+
 return (
         <>
-    <div style={{marginBottom:20,paddingLeft:level*40}}>
+        <div style={{ marginBottom: 20, paddingLeft: indent}}>
         <strong>
             {post.userName}
         </strong>
@@ -74,6 +76,9 @@ const ForumPage: React.FC = () => {
     };
     
  useEffect(() => {
+      if (topicId) {
+        loadPosts(); 
+    }
     if (!token || !topicId) return;
 
     let isMounted = true;
