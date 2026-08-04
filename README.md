@@ -1,9 +1,16 @@
 Application for watching movies and saving them to your personal collection. Currently in development
-BACKEND: ASP NET CORE
+## Stack
 
+- **Backend**: ASP.NET Core (.NET 10), SignalR, JWT auth, gRPC (demo)
+- **Frontend**: React (TypeScript), nginx
+- **Caching**: Redis
+- **Containerization**: Docker, Docker Compose
 
-FRONTEND: React
+## Quick start (Docker)
 
-For launching project, create two windows of terminal and type:
-"dotnet run" for first window
-"cd client" then "npm start" for second window
+You only need Docker and Docker Compose installed. Ports 3000 (frontend) and 5108 (backend) should be free.
+
+```bash
+git clone https://github.com/Barsik2535/GreatFilms.git
+cd GreatFilms
+docker-compose up -d --build
